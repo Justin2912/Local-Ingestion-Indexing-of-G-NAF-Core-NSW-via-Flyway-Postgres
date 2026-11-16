@@ -1,5 +1,3 @@
--- Create the G-NAF schema and a main address table for searches.
--- The prefixes, suffixes and alias_princpal has been added
 CREATE SCHEMA IF NOT EXISTS gnaf;
 
 CREATE TABLE IF NOT EXISTS gnaf.gnaf_core (
@@ -32,6 +30,5 @@ CREATE TABLE IF NOT EXISTS gnaf.gnaf_core (
 	flat_number_prefix varchar(2),
 	level_number_prefix varchar(2),
 	number_first_prefix varchar(3),
-	number_last_prefix varchar(2),
-	alias_principal char(1)
+	number_last_prefix varchar(2)
 );

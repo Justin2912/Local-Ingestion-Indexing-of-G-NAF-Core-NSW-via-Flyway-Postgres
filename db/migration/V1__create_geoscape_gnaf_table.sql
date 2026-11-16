@@ -1,4 +1,3 @@
--- Create tables for addresses, address aliases, sites, and coordinates.
 CREATE TABLE ADDRESS_ALIAS (
  address_alias_pid varchar(15) NOT NULL,
  date_created date NOT NULL,
@@ -126,7 +125,6 @@ CREATE TABLE ADDRESS_TYPE_AUT (
  description varchar(30)
 );
 
--- Create code tables for address parts and geocoding.
 CREATE TABLE FLAT_TYPE_AUT (
  code varchar(7) NOT NULL,
  name varchar(50) NOT NULL,
@@ -157,7 +155,6 @@ CREATE TABLE LEVEL_TYPE_AUT (
  description varchar(30)
 );
 
--- Create locality tables for names, aliases, and nearby localities.
 CREATE TABLE LOCALITY (
  locality_pid varchar(15) NOT NULL,
  date_created date NOT NULL,
@@ -211,7 +208,6 @@ CREATE TABLE LOCALITY_POINT (
  latitude numeric(10,8)
 );
 
--- Create mesh block tables for each census year.
 CREATE TABLE MB_2016 (
  mb_2016_pid varchar(15) NOT NULL,
  date_created date NOT NULL,
@@ -227,7 +223,6 @@ CREATE TABLE MB_2021 (
 );
 
 
--- Create mesh block match codes and primary/secondary address links.
 CREATE TABLE MB_MATCH_CODE_AUT (
  code varchar(15) NOT NULL,
  name varchar(100) NOT NULL,
@@ -250,7 +245,6 @@ CREATE TABLE PS_JOIN_TYPE_AUT (
  description varchar(500)
 );
 
--- Create state codes and street/locality tables.
 CREATE TABLE STATE (
  state_pid varchar(15) NOT NULL,
  date_created date NOT NULL,
@@ -320,7 +314,6 @@ CREATE TABLE STREET_TYPE_AUT (
 );
 
 
--- Create mesh block tables for 2026.
 CREATE TABLE MB_2026 (
     mb_pid_2026 varchar(15) NOT NULL,
     date_created date NOT NULL,
@@ -337,7 +330,6 @@ CREATE TABLE ADDRESS_MESH_BLOCK_2026 (
     mb_pid_2026 varchar(15) NOT NULL
 );
 
--- Give each table a primary key so its records have unique IDs.
 ALTER TABLE ADDRESS_ALIAS ADD PRIMARY KEY (address_alias_pid);
 ALTER TABLE ADDRESS_ALIAS_TYPE_AUT ADD PRIMARY KEY (code);
 ALTER TABLE ADDRESS_CHANGE_TYPE_AUT ADD PRIMARY KEY (code);
