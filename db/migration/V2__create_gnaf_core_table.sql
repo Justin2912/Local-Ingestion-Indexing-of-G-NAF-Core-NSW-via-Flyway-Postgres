@@ -18,6 +18,7 @@ CREATE TABLE IF NOT EXISTS gnaf.gnaf_core (
 	latitude numeric,
 	longitude numeric,
 	level_number numeric(3, 0),
+	level_type_aut_name varchar(50),
 	lot_number varchar(5),
 	street_suffix_code varchar(15),
 	date_created date,

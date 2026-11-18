@@ -20,6 +20,7 @@ INSERT INTO gnaf.gnaf_core (
     latitude,
     longitude,
     level_number,
+    level_type_aut_name,
     lot_number,
     street_suffix_code,
     date_created,
@@ -53,6 +54,7 @@ SELECT
     geocode.latitude,
     geocode.longitude,
     ad.level_number,
+    level_type.name,
     ad.lot_number,
     street_locality.street_suffix_code,
     ad.date_created,
@@ -82,9 +84,9 @@ LEFT JOIN public.street_locality street_locality
 -- Match ADDRESS_DETAIL.ADDRESS_SITE_PID to get the site name.
 LEFT JOIN public.address_site address_site
     ON address_site.address_site_pid = ad.address_site_pid
+-- Translate the level type code into its descriptive address label.
+LEFT JOIN public.level_type_aut level_type
+    ON level_type.code = ad.level_type_code
 -- Match ADDRESS_DETAIL_PID to get the default geocode coordinates.
 LEFT JOIN public.address_default_geocode geocode
     ON geocode.address_detail_pid = ad.address_detail_pid;
-
-
-

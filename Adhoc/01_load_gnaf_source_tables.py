@@ -5,7 +5,7 @@ import psycopg
 DB_CONFIG = {
     "host": "localhost",
     "port": 5432,
-    "dbname": "address_sandbox",
+    "dbname": "gnaf_rebuild",
     "user": "postgres",
     "password": "12345"
 }

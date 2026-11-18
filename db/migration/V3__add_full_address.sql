@@ -5,6 +5,16 @@ ADD COLUMN IF NOT EXISTS full_address text GENERATED ALWAYS AS (
     /* Converts an empty final address into null and removes any trailing commas or spaces on the right side of the address. */
     NULLIF(RTRIM(
 
+        /* Only LEVEL and FLOOR display a number, and neither is shown without one. */
+        COALESCE(NULLIF(CASE
+            WHEN UPPER(BTRIM(level_type_aut_name)) IN ('LEVEL', 'FLOOR') THEN
+                BTRIM(level_type_aut_name) || ' ' || BTRIM(
+                    COALESCE(level_number_prefix, '') || level_number::text ||
+                    COALESCE(level_number_suffix, '')
+                )
+            ELSE BTRIM(level_type_aut_name)
+        END, '') || ', ', '') ||
+
         /* BTRIM removes leading and trailing spaces from building_name. */
         /* NULLIF converts a blank building name ('') into NULL. */
         /* ', ' is appended after the building name when a value exists. */
@@ -12,32 +22,20 @@ ADD COLUMN IF NOT EXISTS full_address text GENERATED ALWAYS AS (
         COALESCE(NULLIF(BTRIM(building_name), '') || ', ', '') ||
     
 
-        /*Only includes address_site_name when it contains a value, is different from building_name and makes it case insensitive*/
-        CASEd
+        /*Only includes address_site_name when it contains a value, is different from b`uilding_name and makes it case insensitive*/
+        CASE
             WHEN NULLIF(BTRIM(address_site_name), '') IS NOT NULL
              AND UPPER(BTRIM(address_site_name)) IS DISTINCT FROM UPPER(BTRIM(building_name))
             THEN BTRIM(address_site_name) || ', '
             ELSE ''
         END ||
-       
-       
-       
-       
+
         /* Builds the string for the flat/unit details. Combines the type, number, and suffix components. Trims any leading and trailing spaces. Appends a comma when a value exists. */
         COALESCE(NULLIF(BTRIM(
             COALESCE(flat_type_code, '') || ' ' ||
             COALESCE(flat_number_prefix, '') || COALESCE(flat_number, '') ||
             COALESCE(flat_number_suffix, '')
         ), '') || ', ', '') ||
-        
-        
-        /* Builds the string for the level details. Starting the string with 'LEVEL ' when a value exists. Combing the prefix, number, 
-        and suffix components. Trimming any leading and trailing spaces on both sides. */
-        COALESCE('LEVEL ' || NULLIF(BTRIM(
-            COALESCE(level_number_prefix, '') || COALESCE(level_number::text, '') ||
-            COALESCE(level_number_suffix, '')
-        ), '') || ', ', '') ||
-
         /* Builds the string for the lot details. Starting the string with 'LOT ' when a value exists. Combines the prefix, number, and suffix components. 
         Trims any leading and trailing spaces. Appends a comma when a value exists. */
         COALESCE('LOT ' || NULLIF(BTRIM(
@@ -79,4 +77,4 @@ ADD COLUMN IF NOT EXISTS full_address text GENERATED ALWAYS AS (
         ),
         ', '
     ), '')
-) VIRTUAL; -- Build this value when the row is queried; do not store it in the table.
+) STORED;
